@@ -7,7 +7,7 @@
 
 {% block content %}
     <section class="content-header">
-      <h1>{{ title }} <span class="text-muted sampling">{{ sampling }}</span></h1>
+      <h1>{{ title }}</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/">Home</a>
@@ -15,12 +15,13 @@
             <li class="breadcrumb-item">{{ title }}</li>
         </ol>
     </section>
+    <div class="text-center"><h3><span id="datepicker"><i class="fas fa-calendar mr-2"></i>{{ sampling }}</span></h3></div>
     <div class="table-responsiv">
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
                     <th class="align-middle" rowspan="2">No</th>
-                    <th class="align-middle text-center" rowspan="2">Lokasi / Pos</th>
+                    <th class="align-middle text-center" rowspan="2">Pos</th>
                     <th class="align-middle text-center" colspan="3" rowspan="2">Level Siaga</th>
                     <th class="text-center" colspan="3">Telemetri (meter)</th>
                     <th class="text-center" colspan="3">Manual</th>
