@@ -87,7 +87,7 @@
                 labels: {{ result.labels|json_encode|raw }},
                 datasets: [
                     {
-                        label: "Curah Hujan {{ sampling }}",
+                        label: "Curah Hujan {{ sampling|date('M Y') }}",
                         data: {{ result.datasets|json_encode|raw }},
                         backgroundColor: 'rgba(0,0,255,0.5)',
                         borderColor: 'rgba(0,0,255,1)',
