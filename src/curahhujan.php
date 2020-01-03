@@ -116,7 +116,7 @@ $app->group('/curahhujan', function() {
 
         $this->get('/harian', function(Request $request, Response $response, $args) {
             $sampling = $request->getParam('sampling', date('Y-m-d'));//"2019-06-01");
-            $range = intval($request->getParam('range', 4));
+            $range = 1; // intval($request->getParam('range', 4));
             $month = date('m', strtotime($sampling));
             $year = date('Y', strtotime($sampling));
             $hari = date('Y-m-d', strtotime("{$year}-{$month}-1"));
@@ -139,9 +139,9 @@ $app->group('/curahhujan', function() {
                     $result['datasets'][$index] = 0;
                     $st = ($index * $range) + 1;
                     if ($st == $i) {
-                        $result['labels'][$index] = "{$st} {$month_name}";
+                        $result['labels'][$index] = tanggal_format(strtotime($current));
                     } else {
-                        $result['labels'][$index] = "{$st}-{$i} {$month_name}";
+                        $result['labels'][$index] = tanggal_format(strtotime($current));
                     }
                     $i += 1;
                 } else {
