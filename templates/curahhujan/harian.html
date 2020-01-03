@@ -55,10 +55,7 @@
     <br>
     <div class="btn-group" role="group" style="float: right;">
         <a class="btn btn-sm btn-secondary {% if range == 1 %}disabled{% endif %}" href="{{ path_for('curahhujan.harian', {'id': lokasi.id}, {'sampling': sampling, 'range': 1}) }}">Per 1 Hari</a>
-        <a class="btn btn-sm btn-secondary {% if range == 2 %}disabled{% endif %}" href="{{ path_for('curahhujan.harian', {'id': lokasi.id}, {'sampling': sampling, 'range': 2}) }}">Per 2 Hari</a>
-        <a class="btn btn-sm btn-secondary {% if range == 3 %}disabled{% endif %}" href="{{ path_for('curahhujan.harian', {'id': lokasi.id}, {'sampling': sampling, 'range': 3}) }}">Per 3 Hari</a>
         <a class="btn btn-sm btn-secondary {% if range == 4 %}disabled{% endif %}" href="{{ path_for('curahhujan.harian', {'id': lokasi.id}, {'sampling': sampling, 'range': 4}) }}">Per 4 Hari</a>
-        <a class="btn btn-sm btn-secondary {% if range == 5 %}disabled{% endif %}" href="{{ path_for('curahhujan.harian', {'id': lokasi.id}, {'sampling': sampling, 'range': 5}) }}">Per 5 Hari</a>
     </div>
     <br>
     <div>
