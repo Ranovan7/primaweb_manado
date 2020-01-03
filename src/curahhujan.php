@@ -116,6 +116,7 @@ $app->group('/curahhujan', function() {
 
         $this->get('/harian', function(Request $request, Response $response, $args) {
             $sampling = $request->getParam('sampling', date('Y-m-d'));//"2019-06-01");
+            $range = intval($request->getParam('range', 4));
             $month = date('m', strtotime($sampling));
             $year = date('Y', strtotime($sampling));
             $hari = date('Y-m-d', strtotime("{$year}-{$month}-1"));
@@ -130,16 +131,23 @@ $app->group('/curahhujan', function() {
             ];
             $i = 1;
             $current = date('Y-m-d', strtotime($hari));
+            $month_name = date('M', strtotime($hari));
             while (true) {
-                if ($i == intval(date('d', strtotime($current)))) {
-                    $result['datasets'][] = 0;
-                    $result['labels'][] = tanggal_format(strtotime($current));
+                $currdate = intval(date('d', strtotime($current)));
+                if ($i == $currdate) {
+                    $index = intval(($i - 1) / $range);
+                    $result['datasets'][$index] = 0;
+                    $st = ($index * $range) + 1;
+                    if ($st == $i) {
+                        $result['labels'][$index] = "{$st} {$month_name}";
+                    } else {
+                        $result['labels'][$index] = "{$st}-{$i} {$month_name}";
+                    }
                     $i += 1;
                 } else {
                     break;
                 }
                 $current = date('Y-m-d', strtotime($current .' +1day'));
-
             }
 
             $i -= 1;
@@ -157,12 +165,14 @@ $app->group('/curahhujan', function() {
 
             foreach ($ch as $c) {
                 $current = date('d', strtotime($c['sampling'] ." -7hour"));
-                $j = intval($current) - 1;
+                $j = intval(intval($current) - 1) / $range;
                 $result['datasets'][$j] = round($result['datasets'][$j] + $c['rain'], 2);
             }
+            // dump($result);
 
             return $this->view->render($response, 'curahhujan/harian.html', [
                 'sampling' => date('Y-m', strtotime("{$hari}")),
+                'range' => $range,
                 'lokasi' => $lokasi,
                 'prev_date' => $prev_date,
                 'next_date' => $next_date,
