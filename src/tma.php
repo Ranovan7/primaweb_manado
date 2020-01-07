@@ -14,14 +14,14 @@ $app->group('/tma', function() {
         $from = "{$hari} 00:00:00";
         $to = "{$hari} 23:55:00";
         // dump($to);
-        $lokasi = $this->db->query("SELECT * FROM lokasi WHERE lokasi.jenis='2'")->fetchAll();
+        $lokasi = $this->db->query("SELECT * FROM lokasi WHERE lokasi.jenis='2' ORDER BY id")->fetchAll();
         $result = [];
         foreach ($lokasi as $l) {
             // LOGGER
             $wlev = $this->db->query("SELECT * FROM periodik
                                     WHERE lokasi_id = {$l['id']} AND wlev IS NOT NULL
                                         AND sampling BETWEEN '{$from}' AND '{$to}'
-                                    ORDER BY id, sampling")->fetchAll();
+                                    ORDER BY sampling")->fetchAll();
 
             $jam6 = 0;
             $jam12 = 0;

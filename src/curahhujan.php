@@ -16,14 +16,14 @@ $app->group('/curahhujan', function() {
         $from = "{$hari} 07:00:00";
         $to = "{$end} 06:55:00";
 
-        $lokasi = $this->db->query("SELECT * FROM lokasi WHERE lokasi.jenis='1' OR lokasi.jenis='4'")->fetchAll();
+        $lokasi = $this->db->query("SELECT * FROM lokasi WHERE lokasi.jenis='1' OR lokasi.jenis='4' ORDER BY id")->fetchAll();
 
         $result = [];
         foreach ($lokasi as $l) {
             $ch = $this->db->query("SELECT * FROM periodik
                                     WHERE lokasi_id = {$l['id']} AND rain IS NOT NULL
                                         AND sampling BETWEEN '{$from}' AND '{$to}'
-                                    ORDER BY id, sampling")->fetchAll();
+                                    ORDER BY sampling")->fetchAll();
 
             $durasi_07_13 = 0;
             $durasi_13_19 = 0;
