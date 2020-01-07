@@ -23,7 +23,7 @@ $app->group('/curahhujan', function() {
             $ch = $this->db->query("SELECT * FROM periodik
                                     WHERE lokasi_id = {$l['id']} AND rain IS NOT NULL
                                         AND sampling BETWEEN '{$from}' AND '{$to}'
-                                    ORDER BY sampling")->fetchAll();
+                                    ORDER BY id, sampling")->fetchAll();
 
             $durasi_07_13 = 0;
             $durasi_13_19 = 0;
@@ -32,7 +32,7 @@ $app->group('/curahhujan', function() {
             $durasi_all = 0;
 
             foreach ($ch as $c) {
-                $time = date('H:i:s', strtotime(date('H:i:s', strtotime($c['sampling'])) .' -7hour'));
+                $time = date('H:i:s', strtotime(date('Y-m-d H:i:s', strtotime($c['sampling'])) .' -8hour'));
                 if ($time < '07:00:00') {
                     $durasi_07_13 += $c['rain'];
                 } else if ($time < '13:00:00') {
@@ -59,7 +59,7 @@ $app->group('/curahhujan', function() {
                 'durasi_manual' => $ch_manual ? $ch_manual['manual'] : null,
             ];
         }
-
+        // dump(date('Y-m-d H:i:s'));
         return $this->view->render($response, 'curahhujan/index.html', [
             'sampling' => tanggal_format(strtotime($hari)),
             'prev_date' => $prev_date,

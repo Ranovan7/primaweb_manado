@@ -21,8 +21,8 @@ $app->group('/tma', function() {
             $wlev = $this->db->query("SELECT * FROM periodik
                                     WHERE lokasi_id = {$l['id']} AND wlev IS NOT NULL
                                         AND sampling BETWEEN '{$from}' AND '{$to}'
-                                    ORDER BY sampling")->fetchAll();
-            
+                                    ORDER BY id, sampling")->fetchAll();
+
             $jam6 = 0;
             $jam12 = 0;
             $jam18 = 0;
@@ -34,17 +34,17 @@ $app->group('/tma', function() {
                 $time = date('H:i', strtotime($w['sampling']));
                 switch ($time) {
                     case '06:00':
-                        $jam6 = $w['wlev'];
+                        $jam6 = round($w['wlev']/100, 2);
                         break;
                     case '12:00':
-                        $jam12 = $w['wlev'];
+                        $jam12 = round($w['wlev']/100, 2);
                         break;
                     case '18:00':
-                        $jam18 = $w['wlev'];
+                        $jam18 = round($w['wlev']/100, 2);
                         break;
                     case '00:00':
                     case '24:00':
-                        $jam0 = $w['wlev'];
+                        $jam0 = round($w['wlev']/100, 2);
                         break;
                 }
 
@@ -71,7 +71,7 @@ $app->group('/tma', function() {
             $jam6_manual = 0;
             $jam12_manual = 0;
             $jam18_manual = 0;
-            
+
             foreach ($wlev_manual as $w) {
                 $time = date('H:i', strtotime($w['sampling']));
                 switch ($time) {
@@ -86,12 +86,12 @@ $app->group('/tma', function() {
                         break;
                 }
             }
-            
+
             $jam6_manual = $jam6_manual > 0 ? number_format($jam6_manual,1) : '-';
             $jam12_manual = $jam12_manual > 0 ? number_format($jam12_manual,1) : '-';
             $jam18_manual = $jam18_manual > 0 ? number_format($jam18_manual,1) : '-';
 
-            
+
             $result[] = [
                 'lokasi' => $l,
                 'jam6' => $jam6,
@@ -105,7 +105,7 @@ $app->group('/tma', function() {
                 'jam18_manual' => $jam18_manual,
             ];
         }
-        
+
         return $this->view->render($response, 'tma/index.html', [
             'sampling' => tanggal_format(strtotime($hari)),
             'prev_date' => $prev_date,
@@ -153,7 +153,7 @@ $app->group('/tma', function() {
                 $data[] = 0;
                 $prev_time += 300;
             }
-            
+
             $result['datasets'][] = [
                 'label' => "Tinggi Mata Air",
                 'data' => $data,
