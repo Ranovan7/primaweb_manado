@@ -32,7 +32,7 @@ $app->group('/curahhujan', function() {
             $durasi_all = 0;
 
             foreach ($ch as $c) {
-                $time = date('H:i:s', strtotime(date('Y-m-d H:i:s', strtotime($c['sampling'])) .' -8hour'));
+                $time = date('H:i:s', strtotime(date('Y-m-d H:i:s', strtotime($c['sampling'])) .' -6hour'));
                 if ($time < '07:00:00') {
                     $durasi_07_13 += $c['rain'];
                 } else if ($time < '13:00:00') {
