@@ -169,7 +169,7 @@ $container['user'] = function($c) {
 	}
 
     // hide password, just because
-	$stmt = $c->db->prepare("SELECT id,username,role,lokasi_id FROM public.user WHERE id=:id");
+	$stmt = $c->db->prepare("SELECT id,username,lokasi_id FROM public.user WHERE id=:id");
 	$stmt->execute([':id' => $user_id]);
 	$user = $stmt->fetch();
 	return $user ?: null;
@@ -213,10 +213,10 @@ $loggedinMiddleware = function(Request $request, Response $response, $next) {
 $adminRoleMiddleware = function(Request $request, Response $response, $next) {
 
     $user = $this->user;
-    if (!$user || $user['role'] != '1') {
-        $this->flash->addMessage('errors', 'Hanya admin yang diperbolehkan mengakses laman tersebut.');
-        return $this->response->withRedirect('/admin');
-    }
+    // if (!$user || $user['role'] != '1') {
+    //     $this->flash->addMessage('errors', 'Hanya admin yang diperbolehkan mengakses laman tersebut.');
+    //     return $this->response->withRedirect('/admin');
+    // }
 
     return $next($request, $response);
 };
