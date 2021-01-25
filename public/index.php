@@ -169,7 +169,7 @@ $container['user'] = function($c) {
 	}
 
     // hide password, just because
-	$stmt = $c->db->prepare("SELECT id,username,lokasi_id FROM public.user WHERE id=:id");
+	$stmt = $c->db->prepare("SELECT id,username FROM public.user WHERE id=:id");
 	$stmt->execute([':id' => $user_id]);
 	$user = $stmt->fetch();
 	return $user ?: null;
