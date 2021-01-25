@@ -18,8 +18,8 @@ $app->group('/admin', function() use ($loggedinMiddleware) {
         // $to = "{$hari} 23:55:00";
 
         // ADMIN
-        if ($user['role'] == 1)
-        {
+        // if ($user['role'] == 1)
+        // {
             $tmas_temp = $this->db->query("SELECT
                                 tma.id,
                                 tma.sampling,
@@ -83,80 +83,80 @@ $app->group('/admin', function() use ($loggedinMiddleware) {
                 'tmas' => $tmas,
                 'chs' => $chs
             ]);
-        }
-        else
-        {
-            // PENGAMAT
-            $lokasi = $this->db->query("SELECT * FROM lokasi WHERE id={$user['lokasi_id']}")->fetch();
-            if ($lokasi['jenis'] == 2) // tma
-            {
-                $tmas_temp = $this->db->query("SELECT * FROM tma WHERE lokasi_id={$user['lokasi_id']} ORDER BY sampling DESC")->fetchAll();
-
-                $tmas = [];
-                foreach ($tmas_temp as $tma) {
-                    $date = date('Y-m-d', strtotime($tma['sampling']));
-                    $time = date('H:i', strtotime($tma['sampling']));
-
-                    if (!isset($tmas[$date])) {
-                        $tmas[$date] = [
-                            'sampling' => $date,
-                            'jam6' => 0,
-                            'jam12' => 0,
-                            'jam18' => 0,
-                        ];
-                    }
-
-                    switch ($time) {
-                        case '06:00':
-                            $tmas[$date]['jam6'] = $tma['manual'];
-                            break;
-                        case '12:00':
-                            $tmas[$date]['jam12'] = $tma['manual'];
-                            break;
-                        case '18:00':
-                            $tmas[$date]['jam18'] = $tma['manual'];
-                            break;
-                    }
-                }
-
-                $current_hour = date('H');
-                if ($current_hour < 12) {
-                    $inputjam = '06:00';
-                } else if ($current_hour < 18) {
-                    $inputjam = '12:00';
-                } else {
-                    $inputjam = '18:00';
-                }
-
-                return $this->view->render($response, 'admin/tma.html', [
-                    'lokasi' => $lokasi,
-                    'tmas' => $tmas,
-                    'inputjam' => $inputjam,
-                ]);
-            }
-            else // ch
-            {
-                $chs_temp = $this->db->query("SELECT * FROM curahujan WHERE lokasi_id={$user['lokasi_id']} ORDER BY sampling DESC")->fetchAll();
-
-                $chs = [];
-                foreach ($chs_temp as $ch) {
-                    $date = date('Y-m-d', strtotime($ch['sampling']));
-
-                    if (!isset($chs[$date])) {
-                        $chs[$date] = [
-                            'sampling' => $date,
-                            'manual' => 0,
-                        ];
-                    }
-                    $chs[$date]['manual'] = $ch['manual'];
-                }
-
-                return $this->view->render($response, 'admin/curahhujan.html', [
-                    'lokasi' => $lokasi,
-                    'chs' => $chs,
-                ]);
-            }
-        }
+        // }
+        // else
+        // {
+        //     // PENGAMAT
+        //     $lokasi = $this->db->query("SELECT * FROM lokasi WHERE id={$user['lokasi_id']}")->fetch();
+        //     if ($lokasi['jenis'] == 2) // tma
+        //     {
+        //         $tmas_temp = $this->db->query("SELECT * FROM tma WHERE lokasi_id={$user['lokasi_id']} ORDER BY sampling DESC")->fetchAll();
+        //
+        //         $tmas = [];
+        //         foreach ($tmas_temp as $tma) {
+        //             $date = date('Y-m-d', strtotime($tma['sampling']));
+        //             $time = date('H:i', strtotime($tma['sampling']));
+        //
+        //             if (!isset($tmas[$date])) {
+        //                 $tmas[$date] = [
+        //                     'sampling' => $date,
+        //                     'jam6' => 0,
+        //                     'jam12' => 0,
+        //                     'jam18' => 0,
+        //                 ];
+        //             }
+        //
+        //             switch ($time) {
+        //                 case '06:00':
+        //                     $tmas[$date]['jam6'] = $tma['manual'];
+        //                     break;
+        //                 case '12:00':
+        //                     $tmas[$date]['jam12'] = $tma['manual'];
+        //                     break;
+        //                 case '18:00':
+        //                     $tmas[$date]['jam18'] = $tma['manual'];
+        //                     break;
+        //             }
+        //         }
+        //
+        //         $current_hour = date('H');
+        //         if ($current_hour < 12) {
+        //             $inputjam = '06:00';
+        //         } else if ($current_hour < 18) {
+        //             $inputjam = '12:00';
+        //         } else {
+        //             $inputjam = '18:00';
+        //         }
+        //
+        //         return $this->view->render($response, 'admin/tma.html', [
+        //             'lokasi' => $lokasi,
+        //             'tmas' => $tmas,
+        //             'inputjam' => $inputjam,
+        //         ]);
+        //     }
+        //     else // ch
+        //     {
+        //         $chs_temp = $this->db->query("SELECT * FROM curahujan WHERE lokasi_id={$user['lokasi_id']} ORDER BY sampling DESC")->fetchAll();
+        //
+        //         $chs = [];
+        //         foreach ($chs_temp as $ch) {
+        //             $date = date('Y-m-d', strtotime($ch['sampling']));
+        //
+        //             if (!isset($chs[$date])) {
+        //                 $chs[$date] = [
+        //                     'sampling' => $date,
+        //                     'manual' => 0,
+        //                 ];
+        //             }
+        //             $chs[$date]['manual'] = $ch['manual'];
+        //         }
+        //
+        //         return $this->view->render($response, 'admin/curahhujan.html', [
+        //             'lokasi' => $lokasi,
+        //             'chs' => $chs,
+        //         ]);
+        //     }
+        // }
     })->setName('admin');
 
     /**
